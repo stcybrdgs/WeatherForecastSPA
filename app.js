@@ -10,7 +10,10 @@ weatherApp.config(function ($routeProvider) {
         templateUrl: 'pages/forecast.html',
         controller: 'forecastController'
     })
-    
+    .when('/forecast/:days', {
+        templateUrl: 'pages/forecast.html',
+        controller: 'forecastController'
+    })    
 });
 
 // SERVICES
@@ -44,11 +47,17 @@ weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysServic
 
 weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', 'numDaysService', function ($scope, $resource, cityService, numDaysService) {
     $scope.city = cityService.city;
-    $scope.numDays = numDaysService.numDays;
-                                             
+    $scope.hashDays = window.location.hash.slice(-2);
+    if($scope.hashDays.slice(0,1) == "/"){
+        $scope.hashDays = $scope.hashDays.slice(-1);
+    }
+    else if($scope.hashDays.slice(0,1) == "s"){
+        $scope.hashDays = numDaysService.numDays;
+    }
+    
     $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?q=London&cnt=2cnt&appid=481418de02aad1855734222ebf3ad080", {
 callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});     
-    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.numDays });
+    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.hashDays });
     
     $scope.convertToFahrenheit = function (degK) {
         return Math.round((1.8*(degK - 273)) + 32);
