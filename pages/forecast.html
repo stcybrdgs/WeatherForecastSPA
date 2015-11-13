@@ -25,7 +25,11 @@
     <div ng-repeat="w in weatherResult.list">
         <div class="row">
             <div>
-                <search-result></search-result>
+                <weather-report weather-day="w"
+                                convert-to-standard="convertToFahrenheit(daytimeTemp)"
+                                convert-to-date="convertToDate(dt)"
+                                date-format="MMM d, y">
+                </weather-report>
             </div>
         </div>
     </div>

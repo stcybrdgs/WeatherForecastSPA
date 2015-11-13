@@ -5,18 +5,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta charset="UTF-8">
 
-        <!-- load bootstrap and fontawesome via CDN -->
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-        
-        <!-- load angular via CDN -->
         <script src="//code.angularjs.org/1.4.0-rc.2/angular.min.js"></script>
         <script src="//code.angularjs.org/1.4.0-rc.2/angular-route.min.js"></script>
         <script src="//code.angularjs.org/1.4.0-rc.2/angular-resource.min.js"></script>
         <script src="app.js"></script>
+        <script src="routes.js"></script>    
+        <script src="services.js"></script>         
+        <script src="controllers.js"></script>        
+        <script src="directives.js"></script>           
     </head>
     <body>
-
         <header>
 			<nav class="navbar navbar-default">
 			<div class="container">
@@ -26,11 +26,8 @@
 			</div>
 			</nav>
 		</header>
-
         <div class="container">
             <div ng-view></div>
-
-		</div>
-
+        </div>
     </body>
 </html>
