@@ -1,7 +1,5 @@
-// MODULE --------------------------------------------------------
 var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource']);
 
-// CONFIG --------------------------------------------------------
 weatherApp.config(function ($routeProvider) {
     $routeProvider
     .when('/', {
@@ -12,38 +10,50 @@ weatherApp.config(function ($routeProvider) {
         templateUrl: 'pages/forecast.html',
         controller: 'forecastController'
     })
+    
 });
 
-// SERVICES --------------------------------------------------------
+// SERVICES
 weatherApp.service('cityService', function () {
     this.city = "New York, NY";
 });
+weatherApp.service('numDaysService', function () {
+   this.numDays = 2; 
+});
 
-// CONTROLLERS -----------------------------------------------------
-// HOME CONTROLLER
-weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, cityService) {
+// CONTROLLERS
+weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysService', function ($scope, cityService, numDaysService) {
+    // var to hold user-entered city
     $scope.city = cityService.city;
     $scope.$watch('city', function () {
        cityService.city = $scope.city; 
     });
+    
+    // var to hold user-entered # days in forecast
+    $scope.numDays = numDaysService.numDays;
+    $scope.$watch('numDays', function () {
+        numDaysService.numDays = $scope.numDays;
+        
+        // if user-entered days are invalid, default to 2-day forecast
+        if( numDaysService.numDays < 1 || 
+                numDaysService.numDays > 16 ){
+            numDaysService.numDays = 2;  
+        }
+    });
 }]);
 
-// FORECAST CONTROLLER
-weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', function ($scope, $resource, cityService) {
-    $scope.city = cityService.city; // for two-way bind on user textbox
-    
-    // connect to openweathermap.org API                                         
+weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', 'numDaysService', function ($scope, $resource, cityService, numDaysService) {
+    $scope.city = cityService.city;
+    $scope.numDays = numDaysService.numDays;
+                                             
     $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?q=London&cnt=2cnt&appid=481418de02aad1855734222ebf3ad080", {
-        callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});    
-        
-    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: 5 });
+callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});     
+    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.numDays });
     
-    // convert API temp from Kelvin to Fahrenheit
     $scope.convertToFahrenheit = function (degK) {
         return Math.round((1.8*(degK - 273)) + 32);
     }
     
-    // format API date using built-in JS date function
     $scope.convertToDate = function (dt) {
         return new Date(dt*1000);
     }

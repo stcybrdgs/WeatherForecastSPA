@@ -1,16 +1,18 @@
-Forecast by {{city}}
-
+<h4><strong>{{city}}</strong> ({{numDays}}-Day Forecast)</h4>
+<br />
 <div ng-repeat="w in weatherResult.list">
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>{{ convertToDate(w.dt) }}</h3>
+                    <h4>{{ convertToDate(w.dt) | date: 'MMM d, y' }}</h4>
                 </div>
                 <div class="panel-body">
-                    high: {{ convertToFahrenheit(w.temp.max) }}
-                    &nbsp;&nbsp;/&nbsp;&nbsp;
-                    low: {{ convertToFahrenheit(w.temp.min) }}                    
+                    <h4>
+                        High: {{ convertToFahrenheit(w.temp.max) }}
+                        &nbsp;&nbsp;/&nbsp;&nbsp;
+                        Low: {{ convertToFahrenheit(w.temp.min) }}
+                    </h4>
                 </div>
             </div>
         </div>
