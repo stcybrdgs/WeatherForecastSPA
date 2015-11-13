@@ -1,18 +1,42 @@
-<h4><strong>{{city}}</strong> ({{numDays}}-Day Forecast)</h4>
-<br />
-<div ng-repeat="w in weatherResult.list">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>{{ convertToDate(w.dt) | date: 'MMM d, y' }}</h4>
-                </div>
-                <div class="panel-body">
-                    <h4>
-                        High: {{ convertToFahrenheit(w.temp.max) }}
-                        &nbsp;&nbsp;/&nbsp;&nbsp;
-                        Low: {{ convertToFahrenheit(w.temp.min) }}
-                    </h4>
+<div class="col-md-6 col-md-offset-3">
+    <p>
+        <a href="#/" class="links"><<  Back to Settings</a>
+    </p>
+    <hr> 
+    <h4><strong>{{city}}</strong> ({{hashDays}}-Day Forecast)</h4>
+    <hr>
+    Days: 
+    <a href="#/forecast/1"  id="1" class="links" ng-class="{ 'bg-primary' : hashDays == 1 }">1</a> | 
+    <a href="#/forecast/2"  id="2" class="links" ng-class="{ 'bg-primary' : hashDays == 2 }">2</a> | 
+    <a href="#/forecast/3"  id="3" class="links" ng-class="{ 'bg-primary' : hashDays == 3 }">3</a> | 
+    <a href="#/forecast/4"  id="4" class="links" ng-class="{ 'bg-primary' : hashDays == 4 }">4</a> |
+    <a href="#/forecast/5"  id="5" class="links" ng-class="{ 'bg-primary' : hashDays == 5 }">5</a> |
+    <a href="#/forecast/6"  id="6" class="links" ng-class="{ 'bg-primary' : hashDays == 6 }">6</a> |
+    <a href="#/forecast/7"  id="7" class="links" ng-class="{ 'bg-primary' : hashDays == 7 }">7</a> |
+    <a href="#/forecast/8"  id="8" class="links" ng-class="{ 'bg-primary' : hashDays == 8 }">8</a> |
+    <a href="#/forecast/9"  id="9" class="links" ng-class="{ 'bg-primary' : hashDays == 9 }">9</a> |
+    <a href="#/forecast/10" id="10" class="links" ng-class="{ 'bg-primary' : hashDays == 10 }">10</a> |    
+    <a href="#/forecast/11" id="11" class="links" ng-class="{ 'bg-primary' : hashDays == 11 }">11</a> |   
+    <a href="#/forecast/12" id="12" class="links" ng-class="{ 'bg-primary' : hashDays == 12 }">12</a> |   
+    <a href="#/forecast/13" id="13" class="links" ng-class="{ 'bg-primary' : hashDays == 13 }">13</a> |   
+    <a href="#/forecast/14" id="14" class="links" ng-class="{ 'bg-primary' : hashDays == 14 }">14</a> |   
+    <a href="#/forecast/15" id="15" class="links" ng-class="{ 'bg-primary' : hashDays == 15 }">15</a> |   
+    <a href="#/forecast/16" id="16" class="links" ng-class="{ 'bg-primary' : hashDays == 16 }">16</a>
+    <br /><br />
+    <div ng-repeat="w in weatherResult.list">
+        <div class="row">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="padding: 4px 15px;">
+                        <h5><strong>{{ convertToDate(w.dt) | date: 'MMM d, y' }}</strong></h5>
+                    </div>
+                    <div class="panel-body" style="padding:8px 0px 8px 15px;">
+                        <h5>
+                            High: {{ convertToFahrenheit(w.temp.max) }}
+                            &nbsp;&nbsp;/&nbsp;&nbsp;
+                            Low: {{ convertToFahrenheit(w.temp.min) }}
+                        </h5>
+                    </div>
                 </div>
             </div>
         </div>

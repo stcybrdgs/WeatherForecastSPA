@@ -1,5 +1,15 @@
 #alerts{
-    height:20px;
-    padding:0px 0px 8px 0px;
-    margin-top:-10px;
+    height: 20px;
+    padding: 0px 0px 8px 0px;
+    margin-top: -10px;
+}
+.links{
+    padding:4px;
+    font-size:.9em;
+}
+.links:hover{
+    color: white;
+    background-color: #337ab7;
+    text-decoration: none;
+    padding:4px;
 }

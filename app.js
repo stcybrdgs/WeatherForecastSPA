@@ -66,4 +66,7 @@ callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});
     $scope.convertToDate = function (dt) {
         return new Date(dt*1000);
     }
+    
+        // test only
+    console.log($scope.weatherResult);
 }]);
