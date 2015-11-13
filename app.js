@@ -1,65 +1,46 @@
+var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource']);
 
-var myApp = angular.module('myModule', ['ngRoute']);
-
-myApp.config(function ($routeProvider) {
+weatherApp.config(function ($routeProvider) {
     $routeProvider
-   .when('/', {
-       templateUrl: 'pages/main.html',
-       controller: 'mainController'
-   })
-   .when('/about', {
-       templateUrl: 'pages/about.html',
-       controller: 'mainController'        
-   })
-   .when('/form', {
-       templateUrl: 'pages/form.html',
-       controller: 'mainController'        
-   })   
+    .when('/', {
+        templateUrl: 'pages/home.html',
+        controller: 'homeController'
+    })
+    .when('/forecast', {
+        templateUrl: 'pages/forecast.html',
+        controller: 'forecastController'
+    })
+    
 });
 
-myApp.controller('mainController', ['$scope', '$log', function ($scope, $log) {
-    $scope.customers = [
-        {
-            name: 'John Doe',
-            address: '555 Main St.',
-            city: 'New York',
-            state: 'NY',
-            zip: '11111'
-        },
-        {
-            name: 'Jane Buttersworth',
-            address: '222 Doodle St.',
-            city: 'Toledo',
-            state: 'OH',
-            zip: '22222'
-        },
-        {
-            name: 'Peter Pan',
-            address: '123 Gone Way',
-            city: 'Never',
-            state: 'Neverland',
-            zip: '77777'
-        }        
-    ];
-    $scope.formattedAddress = function(customer){
-        return  customer.address + ', ' + customer.city + ', ' + customer.state + ', ' + customer.zip;
-    };
-    $scope.record0 = $scope.formattedAddress($scope.customers[0]);
-}]);
+// SERVICES
+weatherApp.service('cityService', function () {
+    this.city = "New York, NY";
+});
 
-myApp.controller('secondController', ['$scope', '$log', function ($scope, $log) {
+weatherApp
 
+// CONTROLLERS
+weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, cityService) {
+    $scope.city = cityService.city;
+    $scope.$watch('city', function () {
+       cityService.city = $scope.city; 
+    });
     
 }]);
 
-myApp.directive('searchResult', function() {
-   return {
-       restrict: 'AECM',
-       replace: true,       
-       templateUrl: 'directives/searchresult.html',
-       scope:{  customerObject: "=",
-                formattedAddressFunction: "&"
-       },
-       transclude: true
-   }
-});
+weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', function ($scope, $resource, cityService) {
+    $scope.city = cityService.city;
+                                             
+    $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?q=London&cnt=2cnt&appid=481418de02aad1855734222ebf3ad080", {
+callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});     
+    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: 5 });
+    
+    $scope.convertToFahrenheit = function (degK) {
+        return Math.round((1.8*(degK - 273)) + 32);
+    }
+    
+    $scope.convertToDate = function (dt) {
+        return new Date(dt*1000);
+    }
+}]);
