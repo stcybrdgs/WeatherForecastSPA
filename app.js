@@ -1,5 +1,7 @@
+// MODULE -----------------------------
 var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource']);
 
+// CONFIG -----------------------------
 weatherApp.config(function ($routeProvider) {
     $routeProvider
     .when('/', {
@@ -16,7 +18,7 @@ weatherApp.config(function ($routeProvider) {
     })    
 });
 
-// SERVICES
+// SERVICES ---------------------------
 weatherApp.service('cityService', function () {
     this.city = "New York, NY";
 });
@@ -24,7 +26,7 @@ weatherApp.service('numDaysService', function () {
    this.numDays = 2; 
 });
 
-// CONTROLLERS
+// CONTROLLERS ------------------------
 weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysService', function ($scope, cityService, numDaysService) {
     // var to hold user-entered city
     $scope.city = cityService.city;
@@ -66,7 +68,6 @@ callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});
     $scope.convertToDate = function (dt) {
         return new Date(dt*1000);
     }
-    
-        // test only
-    console.log($scope.weatherResult);
+
+    console.log($scope.weatherResult);  // testing output
 }]);
