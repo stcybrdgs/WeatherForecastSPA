@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding: 4px 15px;">
+        <h5>
+            <strong>{{ convertToDate(w.dt) | date: 'MMM d, y' }}</strong>
+        </h5>
+    </div>
+    <div class="panel-body" style="padding:8px 0px 8px 15px;">
+        <h5>
+            High: {{ convertToFahrenheit(w.temp.max) }}
+            &nbsp;&nbsp;/&nbsp;&nbsp;
+            Low: {{ convertToFahrenheit(w.temp.min) }}
+        </h5>
+    </div>
+</div>

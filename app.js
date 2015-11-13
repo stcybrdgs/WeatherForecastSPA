@@ -26,6 +26,15 @@ weatherApp.service('numDaysService', function () {
    this.numDays = 2; 
 });
 
+// DIRECTIVES -------------------------
+weatherApp.directive('searchResult', function() {
+   return {
+       restrict: 'E',
+       templateUrl: 'directives/searchresult.html',
+       replace: true 
+   } 
+});
+
 // CONTROLLERS ------------------------
 weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysService', function ($scope, cityService, numDaysService) {
     // var to hold user-entered city
