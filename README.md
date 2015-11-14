@@ -1,4 +1,4 @@
-**#Weather Forecast SPA**
+#**Weather Forecast SPA**
 
 This repository contains files for a **Weather Forecast Single-Page Application (SPA)** created with **AngularJS**.
 
