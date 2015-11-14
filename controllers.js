@@ -1,5 +1,5 @@
 // HOME CONTROLLER ---------------------------
-weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysService', function ($scope, cityService, numDaysService) {
+weatherApp.controller('homeController', ['$scope', '$location', 'cityService', 'numDaysService', function ($scope, $location, cityService, numDaysService) {
     // var to hold user-entered city
     $scope.city = cityService.city;
     $scope.$watch('city', function () {
@@ -17,10 +17,14 @@ weatherApp.controller('homeController', ['$scope', 'cityService', 'numDaysServic
             numDaysService.numDays = 2;  
         }
     });
+    
+    $scope.submit = function () {
+        $location.path('/forecast');
+    }
 }]);
 
 // FORECAST CONTROLLER ------------------------
-weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', 'numDaysService', function ($scope, $resource, cityService, numDaysService) {
+weatherApp.controller('forecastController', ['$scope', 'cityService', 'numDaysService', 'weatherService',function ($scope, cityService, numDaysService, weatherService) {
     $scope.city = cityService.city;
     $scope.hashDays = window.location.hash.slice(-2);
     if($scope.hashDays.slice(0,1) == "/"){
@@ -30,10 +34,8 @@ weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService
         $scope.hashDays = numDaysService.numDays;
     }
     
-    $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?q=London&cnt=2cnt&appid=481418de02aad1855734222ebf3ad080", {
-callback: "JSON_CALLBACK"}, { get: { method: "JSONP" }});     
-    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.hashDays });
-    
+    $scope.weatherResult = weatherService.getWeather($scope.city, $scope.hashDays);
+     
     $scope.convertToFahrenheit = function (degK) {
         return Math.round((1.8*(degK - 273)) + 32);
     }
