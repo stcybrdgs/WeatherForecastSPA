@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<header></header>
+<style>
+    .divBox{border: 1px solid gray;}
+</style>
+
+<script>
+
+// use Ajax to GET data from a file located on the server
+function localAjaxCall() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("file").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", "response.txt", true);
+    xhttp.send();
+}
+
+// use Ajax to GET data from a web accessible API
+function httpAjaxCall(){
+    var xhttp = new XMLHttpRequest();
+    var headers = ""
+    var responseBody = ""
+    xhttp.onreadystatechange = function() {
+        // display response that comes back from api
+        if (this.readyState == 4 && this.status == 200) {
+            // use response text to replace innerHTML
+            responseBody = this.responseText;
+            document.getElementById("uri").innerHTML = responseBody;
+            //document.getElementById("visibilityAttr").innerHTML = responseBody;
+
+            // display headers if any come back 
+            var headers = this.getAllResponseHeaders()
+            document.getElementById("headersArea").innerHTML = headers;
+
+            // send response body to parse function
+            parseJSON(responseBody);
+        }
+    };
+    var demoURI = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&mode=json&appid=481418de02aad1855734222ebf3ad080"
+    xhttp.open("GET", demoURI, true);
+    xhttp.send();
+
+}
+
+// parse the response that comes back from server
+// (it will be an array)
+function parseJSON(obj){
+    var jObj = JSON.parse(obj);
+
+    document.getElementById("weather").innerHTML = jObj.weather[0].main; 
+    document.getElementById("temp").innerHTML = jObj.main.temp;
+    document.getElementById("pressure").innerHTML = jObj.main.pressure;
+    document.getElementById("humidity").innerHTML = jObj.main.humidity;
+}
+</script>
+
+<body>
+
+	<div class="divBox">
+	  <button type="button" onclick="localAjaxCall()">Local Ajax Call</button>
+      <h2 id="file">The local Ajax Call will change this text.</h2>
+    </div>
+    
+      <br/><br/>
+      <br/><br/>      
+
+    <div class="divBox">
+      <button type="button" onclick="httpAjaxCall()">HTTP Ajax Call</button>
+      <h2 id="uri">The HTTPl Ajax Call will change this text.</h2>
+     </div>
+     
+      <br/><br/>
+      <br/><br/>      
+
+    <div class="divBox">
+      <h2>Headers</h2>
+      <h3 id="headersArea">Headers (if any) go here</h3>
+	</div>
+
+      <br/><br/>
+      <br/><br/>
+
+    <div class="divBox">
+        <article>weather:<span id="weather">none</span></article>
+        <article>temp:<span id="temp">none</span></article>
+        <article>pressure:<span id="pressure">none</span></article>
+        <article>humidity:<span id="humidity">none</span></article>
+    </div>
+
+</body>
+</html>
